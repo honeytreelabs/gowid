@@ -41,7 +41,7 @@ import (
 
 	"github.com/gcla/gowid"
 	"github.com/gcla/gowid/widgets/text"
-	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell/v2"
 )
 
 var txt *text.Widget
@@ -125,6 +125,8 @@ The screenshots above show how the app reacts to being resized. You can see here
 This program is a glitzier "hello world". This example is at `github.com/gcla/gowid/examples/helloworld` and you can run it via `gowid-helloworld`. 
 
 ```go
+package main
+
 import (
 	"github.com/gcla/gowid"
 	"github.com/gcla/gowid/widgets/divider"
@@ -203,7 +205,7 @@ import (
 	"github.com/gcla/gowid"
 	"github.com/gcla/gowid/widgets/edit"
 	"github.com/gcla/gowid/widgets/text"
-	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell/v2"
 )
 
 //======================================================================
@@ -219,7 +221,7 @@ func (w *QuestionBox) UserInput(ev interface{}, size gowid.IRenderSize, focus go
 		case tcell.KeyEnter:
 			w.IWidget = text.New(fmt.Sprintf("Nice to meet you, %s.\n\nPress Q to exit.", w.IWidget.(*edit.Widget).Text()))
 		default:
-			res = w.IWidget.UserInput(w.IWidget, ev, size, focus, app)
+			res = w.IWidget.UserInput(ev, size, focus, app)
 		}
 	}
 	return res
@@ -267,11 +269,11 @@ func main() {
 	sbtn := styled.New(btn, gowid.MakeStyledAs(gowid.StyleReverse))
 	div := divider.NewBlank()
 
-	btn.OnClick(gowid.WidgetCallback{"cb", func(app gowid.IApp, w gowid.IWidget) {
+	btn.OnClick(gowid.WidgetCallback{Name: "cb", WidgetChangedFunction: func(app gowid.IApp, w gowid.IWidget) {
 		app.Quit()
 	}})
 
-	ask.OnTextSet(gowid.WidgetCallback{"cb", func(app gowid.IApp, w gowid.IWidget) {
+	ask.OnTextSet(gowid.WidgetCallback{Name: "cb", WidgetChangedFunction: func(app gowid.IApp, w gowid.IWidget) {
 		if ask.Text() == "" {
 			reply.SetText("", app)
 		} else {
@@ -317,7 +319,7 @@ import (
 	"github.com/gcla/gowid/widgets/list"
 	"github.com/gcla/gowid/widgets/pile"
 	"github.com/gcla/gowid/widgets/text"
-	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell/v2"
 )
 
 //======================================================================
